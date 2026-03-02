@@ -1,3 +1,5 @@
+import { useCart } from '../context/CartContext';
+
 export interface ProductType {
     _id: string;
     name: string;
@@ -7,6 +9,7 @@ export interface ProductType {
     finalPrice?: number;
     stockQuantity: number;
     images: string[];
+    category: string;
     averageRating: number;
 }
 
@@ -15,6 +18,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+    const { addToCart } = useCart();
     const discount = product.finalPrice && product.originalPrice > product.finalPrice
         ? Math.round(((product.originalPrice - product.finalPrice) / product.originalPrice) * 100)
         : 0;
@@ -60,7 +64,11 @@ export default function ProductCard({ product }: ProductCardProps) {
                         )}
                     </div>
 
-                    <button className="bg-gray-100 hover:bg-primary-600 hover:text-white text-gray-900 p-2.5 rounded-xl transition-colors shrink-0">
+                    <button
+                        onClick={() => addToCart(product._id)}
+                        className="bg-primary-50 hover:bg-primary-600 text-primary-600 hover:text-white p-2.5 rounded-xl transition-colors shrink-0 cursor-pointer"
+                        title="Thêm vào giỏ"
+                    >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                         </svg>
