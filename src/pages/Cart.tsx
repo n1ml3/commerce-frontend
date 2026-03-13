@@ -1,10 +1,31 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useState } from 'react';
+import axios from '../api/axios';
 
 export default function Cart() {
-    const { items, updateQuantity, removeFromCart, totalPrice } = useCart();
-    const { isAuthenticated } = useAuth();
+    const { items, updateQuantity, removeFromCart, totalPrice, refreshCart } = useCart();
+    const { isAuthenticated, token } = useAuth();
+    const [loadingCheckout, setLoadingCheckout] = useState(false);
+    const navigate = useNavigate();
+
+    const handleCheckout = async () => {
+        if (!token) return;
+        setLoadingCheckout(true);
+        try {
+            await axios.post('/orders/checkout', {}, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            alert('Đặt hàng thành công!');
+            refreshCart();
+            navigate('/store');
+        } catch (err: any) {
+            alert(err.response?.data?.message || 'Có lỗi xảy ra khi đặt hàng.');
+        } finally {
+            setLoadingCheckout(false);
+        }
+    };
 
     if (!isAuthenticated) {
         return (
@@ -23,7 +44,7 @@ export default function Cart() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
                 <h1 className="text-3xl font-extrabold text-gray-900 mb-6">Giỏ Hàng</h1>
                 <p className="text-gray-500 mb-6">Giỏ hàng của bạn đang trống.</p>
-                <Link to="/" className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-full font-medium transition-colors cursor-pointer">
+                <Link to="/store" className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-full font-medium transition-colors cursor-pointer">
                     Tiếp Tục Mua Sắm
                 </Link>
             </div>
@@ -95,8 +116,12 @@ export default function Cart() {
                                 <span className="text-primary-600">${totalPrice.toFixed(2)}</span>
                             </div>
                         </div>
-                        <button className="w-full bg-primary-600 hover:bg-primary-700 text-white py-3 rounded-full font-bold transition-colors shadow-sm cursor-pointer">
-                            Tiến Hành Thanh Toán
+                        <button 
+                            onClick={handleCheckout}
+                            disabled={loadingCheckout}
+                            className={`w-full text-white py-3 rounded-none font-bold transition-colors cursor-pointer ${loadingCheckout ? 'bg-primary-400' : 'bg-primary-600 hover:bg-primary-700'}`}
+                        >
+                            {loadingCheckout ? 'Đang Xử Lý...' : 'Tiến Hành Thanh Toán'}
                         </button>
                     </div>
                 </div>

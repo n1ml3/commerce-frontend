@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from '../api/axios';
 import ProductCard, { type ProductType } from '../components/ProductCard';
+import MetroLoader from '../components/MetroLoader';
 
 export default function Home() {
     const [products, setProducts] = useState<ProductType[]>([]);
@@ -43,27 +44,41 @@ export default function Home() {
     if (loading && products.length === 0) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+                <MetroLoader />
             </div>
         );
     }
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="mb-8 text-center">
-                <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl mb-4">
-                    Sản phẩm Mới Nhất
-                </h1>
-                <p className="max-w-2xl mx-auto text-xl text-gray-500">
-                    Khám phá bộ sưu tập sản phẩm cao cấp của chúng tôi.
-                </p>
+            {/* Hero Section */}
+            <div className="relative bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl overflow-hidden mb-12 shadow-2xl">
+                {/* Subtle pattern or blur could go here */}
+                <div className="absolute inset-0 bg-black/20"></div>
+                <div className="relative px-8 py-16 sm:px-16 sm:py-24 flex flex-col items-center text-center">
+                    <h1 className="text-4xl font-extrabold text-white tracking-tight sm:text-6xl mb-6 drop-shadow-lg">
+                        Bộ Sưu Tập Đỉnh Cao
+                    </h1>
+                    <p className="max-w-2xl mx-auto text-xl text-gray-300 mb-8 font-medium">
+                        Khám phá những sản phẩm thịnh hành nhất với mức giá không tưởng. Mua sắm dễ dàng, tận hưởng niềm vui.
+                    </p>
+                    <button className="bg-primary-600 text-white font-bold px-8 py-3 rounded-full hover:bg-primary-700 transition-transform shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        Khám Phá Ngay
+                    </button>
+                </div>
+            </div>
+
+            <div className="flex items-center justify-between mb-8">
+                <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+                    Sản phẩm nổi bật
+                </h2>
             </div>
 
             {categories.length > 0 && (
-                <div className="flex flex-wrap justify-center gap-3 mb-12">
+                <div className="flex overflow-x-auto pb-4 mb-8 gap-3 hide-scrollbar snap-x">
                     <button
                         onClick={() => setActiveCategory(null)}
-                        className={`px-5 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${!activeCategory ? 'bg-primary-600 text-white shadow-md' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'}`}
+                        className={`snap-center shrink-0 px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${!activeCategory ? 'bg-primary-600 text-white shadow-md transform scale-105' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:border-gray-300'}`}
                     >
                         Tất cả
                     </button>
@@ -71,7 +86,7 @@ export default function Home() {
                         <button
                             key={cat._id}
                             onClick={() => setActiveCategory(cat._id)}
-                            className={`px-5 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${activeCategory === cat._id ? 'bg-primary-600 text-white shadow-md' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'}`}
+                            className={`snap-center shrink-0 px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${activeCategory === cat._id ? 'bg-primary-600 text-white shadow-md transform scale-105' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 hover:border-gray-300'}`}
                         >
                             {cat.name}
                         </button>
@@ -84,8 +99,8 @@ export default function Home() {
                     {error}
                 </div>
             ) : products.length === 0 ? (
-                <div className="text-center text-gray-500 py-12 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                    No products found. Run the seeder in your backend!
+                <div className="text-center text-gray-500 py-12 bg-white border border-gray-100 shadow-none">
+                    Không tìm thấy sản phẩm nào. Vui lòng chạy seeder ở Backend!
                 </div>
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

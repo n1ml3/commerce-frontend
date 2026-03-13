@@ -1,15 +1,70 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
+  /* Metro UI Colors */
+  --color-primary-50: #e6f2fb;
+  --color-primary-100: #cce4f7;
+  --color-primary-500: #2b5797; /* Metro Blue */
+  --color-primary-600: #2d89ef; /* Metro Light Blue */
   --color-primary-700: #1d4ed8;
+
+  /* Additional Metro Colors */
+  --color-metro-green: #00a300;
+  --color-metro-red: #ee1111;
+  --color-metro-orange: #e3a21a;
+  --color-metro-purple: #7e3878;
+
+  /* Remove all border radii to match Metro Flat Design */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-full: 0px;
 }
 
 body {
-  background-color: #f8fafc;
-  font-family: 'Inter', system-ui, sans-serif;
-  color: #0f172a;
+  background-color: #ffffff; /* White background is popular in Modern Windows Metro */
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #1d1d1d;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* Remove default shadows or replace with hard shadows if any */
+* {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+button, a.btn, input, select, textarea {
+  border-radius: 0 !important;
+}
+
+/* Metro Loader Animation */
+@keyframes metro-dots {
+  0% { transform: translateY(0); opacity: 0.2; }
+  50% { transform: translateY(-10px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 0.2; }
+}
+
+.metro-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem;
+}
+
+.metro-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: var(--color-primary-600);
+  animation: metro-dots 1s infinite ease-in-out;
+}
+
+.metro-dot:nth-child(1) { animation-delay: 0s; }
+.metro-dot:nth-child(2) { animation-delay: 0.1s; }
+.metro-dot:nth-child(3) { animation-delay: 0.2s; }
+.metro-dot:nth-child(4) { animation-delay: 0.3s; }
+.metro-dot:nth-child(5) { animation-delay: 0.4s; }

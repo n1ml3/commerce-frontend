@@ -1,73 +1,45 @@
-# React + TypeScript + Vite
+# Frontend Thương Mại Điện Tử
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Đây là giao diện phía máy khách (frontend) dành cho nền tảng thương mại điện tử đa người bán, được xây dựng với **React**, **TypeScript**, **Vite**, và **Tailwind CSS**.
 
-Currently, two official plugins are available:
+## Thiết kế
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Ứng dụng tuân theo chuẩn thẩm mỹ **Windows 8 Metro UI** một cách nghiêm ngặt:
+- **Thiết kế Phẳng (Flat Design)**: Loại bỏ hoàn toàn viền (`border`), đổ bóng (`box-shadow`), và góc bo tròn (`border-radius: 0`).
+- **Kiểu Chữ (Typography)**: Sử dụng họ phông chữ `Segoe UI`, đặc trưng của phong cách Metro.
+- **Các khối màu nổi bật**: Sử dụng nhiều màu sắc phẳng cơ bản, sặc sỡ và khối lớn vuông vức.
+- **Ngôn ngữ**: Toàn bộ giao diện người dùng được Việt hóa (**Tiếng Việt**).
 
-## React Compiler
+## Tính năng
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Luồng Xác thực**: Đăng nhập và đăng ký với giao diện tiếng Việt dễ dùng.
+- **Cổng Người Mua Mặc Định**: Duyệt sản phẩm, xem hồ sơ các cửa hàng, quản lý giỏ hàng, và tiến hành thanh toán (checkout).
+- **Cổng Quản Trị**: Bảng điều khiển (dashboard) trực quan để quản lý người dùng và sản phẩm. Có phân quyền và góc nhìn (view) theo vai trò cho Người bán (Vendor) và Quản trị viên (Admin).
+- **Chi tiết Sản phẩm**: Xem chi tiết bao gồm hình ảnh, giá cả, thông tin người bán, đánh giá của người dùng và các tương tác thích (like)/bỏ thích.
+- **Giỏ hàng & Thanh toán**: Quản lý trạng thái giỏ hàng đơn giản và hiệu quả với kết nối trực tiếp đến hệ thống Đơn hàng.
 
-## Expanding the ESLint configuration
+## Công nghệ sử dụng
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Framework**: React 18 + Vite
+- **Ngôn ngữ**: TypeScript
+- **Định dạng giao diện (Styling)**: Tailwind CSS (điều chỉnh cho Metro UI) + Vanilla CSS (`index.css`)
+- **Điều hướng (Routing)**: React Router DOM
+- **Biểu tượng (Icons)**: Lucide React
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Chạy ứng dụng
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Lưu ý: Hãy đảm bảo rằng dịch vụ backend (máy chủ) đang chạy tại `http://localhost:3000` (hoặc hãy cập nhật URL API trong file cấu hình) để các chức năng có thể hoạt động đầy đủ.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Cài đặt các thư viện cần thiết
+npm install
+
+# Khởi động máy chủ phát triển (development server)
+npm run dev
+
+# Xây dựng ứng dụng (build) cho môi trường sản xuất (production)
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Giấy phép
+MIT

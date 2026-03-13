@@ -1,4 +1,5 @@
 import { useCart } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 
 export interface ProductType {
     _id: string;
@@ -11,6 +12,7 @@ export interface ProductType {
     images: string[];
     category: string;
     averageRating: number;
+    attributes?: Record<string, string>;
 }
 
 interface ProductCardProps {
@@ -24,8 +26,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         : 0;
 
     return (
-        <div className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full cursor-pointer">
-            <div className="relative aspect-square overflow-hidden bg-gray-100 flex-shrink-0">
+        <div className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full">
+            <Link to={`/store/product/${product._id}`} className="relative aspect-square overflow-hidden bg-gray-100 flex-shrink-0 block">
                 <img
                     src={product.images[0] || 'https://via.placeholder.com/400'}
                     alt={product.name}
@@ -42,12 +44,17 @@ export default function ProductCard({ product }: ProductCardProps) {
                     </svg>
                     <span className="text-xs font-bold text-gray-700">{product.averageRating || 'New'}</span>
                 </div>
-            </div>
+            </Link>
 
             <div className="p-5 flex flex-col flex-grow">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-1 group-hover:text-primary-600 transition-colors">
+                {product.attributes?.Brand && (
+                    <span className="text-[10px] font-extrabold text-primary-600 uppercase tracking-widest mb-1 block">
+                        {product.attributes.Brand}
+                    </span>
+                )}
+                <Link to={`/store/product/${product._id}`} className="text-lg font-bold text-gray-900 mb-1 line-clamp-1 group-hover:text-primary-600 transition-colors">
                     {product.name}
-                </h3>
+                </Link>
                 <p className="text-sm text-gray-500 line-clamp-2 mb-4 flex-grow">
                     {product.description}
                 </p>
@@ -65,7 +72,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     </div>
 
                     <button
-                        onClick={() => addToCart(product._id)}
+                        onClick={(e) => { e.preventDefault(); addToCart(product._id); }}
                         className="bg-primary-50 hover:bg-primary-600 text-primary-600 hover:text-white p-2.5 rounded-xl transition-colors shrink-0 cursor-pointer"
                         title="Thêm vào giỏ"
                     >

@@ -20,7 +20,7 @@ export default function Login() {
         try {
             const response = await axios.post('/auth/login', { email, password });
             login(response.data.user, response.data.access_token);
-            navigate('/');
+            navigate('/store');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
         } finally {
