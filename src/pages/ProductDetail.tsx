@@ -95,9 +95,9 @@ export default function ProductDetail() {
                             {product.name}
                         </h1>
                         <div className="mt-4 flex items-center gap-4">
-                            <span className="text-3xl font-bold text-gray-900">${product.finalPrice}</span>
+                            <span className="text-3xl font-bold text-gray-900">{product.finalPrice.toLocaleString('vi-VN')} ₫</span>
                             {product.originalPrice > product.finalPrice && (
-                                <span className="text-xl text-gray-500 line-through">${product.originalPrice}</span>
+                                <span className="text-xl text-gray-500 line-through">{product.originalPrice.toLocaleString('vi-VN')} ₫</span>
                             )}
                         </div>
                         <p className="mt-4 text-gray-500 leading-relaxed">

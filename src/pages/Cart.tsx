@@ -66,7 +66,7 @@ export default function Cart() {
                                 />
                                 <div className="flex-1 text-center sm:text-left">
                                     <h3 className="text-lg font-bold text-gray-900">{item.product.name}</h3>
-                                    <p className="text-primary-600 font-medium">${item.price.toFixed(2)}</p>
+                                    <p className="text-primary-600 font-medium">{item.price.toLocaleString('vi-VN')} ₫</p>
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <div className="flex items-center bg-gray-50 rounded-lg border border-gray-200">
@@ -105,7 +105,7 @@ export default function Cart() {
                         <div className="space-y-4 mb-6">
                             <div className="flex justify-between text-gray-600">
                                 <span>Tạm tính</span>
-                                <span>${totalPrice.toFixed(2)}</span>
+                                <span>{totalPrice.toLocaleString('vi-VN')} ₫</span>
                             </div>
                             <div className="flex justify-between text-gray-600">
                                 <span>Phí vận chuyển</span>
@@ -113,7 +113,7 @@ export default function Cart() {
                             </div>
                             <div className="border-t border-gray-100 pt-4 flex justify-between items-center text-lg font-bold text-gray-900">
                                 <span>Tổng cộng</span>
-                                <span className="text-primary-600">${totalPrice.toFixed(2)}</span>
+                                <span className="text-primary-600">{totalPrice.toLocaleString('vi-VN')} ₫</span>
                             </div>
                         </div>
                         <button 

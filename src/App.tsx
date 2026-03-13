@@ -15,18 +15,18 @@ import AdminProducts from './pages/Admin/AdminProducts';
 import AdminUsers from './pages/Admin/AdminUsers';
 
 const ClientLayout = () => (
-    <>
+    <div className="flex flex-col min-h-screen">
         <Navbar />
-        <main>
+        <main className="flex-grow flex flex-col">
             <Outlet />
         </main>
-        <footer className="bg-white border-t border-gray-200 mt-20">
+        <footer className="bg-white border-t border-gray-200 mt-auto">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col items-center">
                 <span className="text-2xl font-bold text-primary-600 mb-4">CHỢ GIỜI NAM LÊ.</span>
                 <p className="text-gray-500 text-sm">© 2026 CHỢ GIỜI NAM LÊ. All rights reserved.</p>
             </div>
         </footer>
-    </>
+    </div>
 );
 
 function App() {

@@ -37,7 +37,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const fetchCart = async () => {
         try {
             const response = await axios.get('/carts');
-            setItems(response.data.items || []);
+            const validItems = (response.data.items || []).filter((item: any) => item.product != null);
+            setItems(validItems);
         } catch (error) {
             console.error('Failed to fetch cart', error);
         }
@@ -50,16 +51,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
         }
         try {
             const response = await axios.post('/carts/items', { productId, quantity: 1 });
-            setItems(response.data.items);
+            const validItems = (response.data.items || []).filter((item: any) => item.product != null);
+            setItems(validItems);
+            alert('Đã thêm sản phẩm vào giỏ hàng!');
         } catch (error) {
             console.error('Failed to add to cart', error);
+            alert('Có lỗi xảy ra khi thêm dữ liệu vào giỏ hàng!');
         }
     };
 
     const removeFromCart = async (productId: string) => {
         try {
             const response = await axios.delete(`/carts/items/${productId}`);
-            setItems(response.data.items);
+            const validItems = (response.data.items || []).filter((item: any) => item.product != null);
+            setItems(validItems);
         } catch (error) {
             console.error('Failed to remove from cart', error);
         }
@@ -69,7 +74,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         if (quantity < 1) return;
         try {
             const response = await axios.put(`/carts/items/${productId}`, { quantity });
-            setItems(response.data.items);
+            const validItems = (response.data.items || []).filter((item: any) => item.product != null);
+            setItems(validItems);
         } catch (error) {
             console.error('Failed to update quantity', error);
         }

@@ -74,9 +74,9 @@ export default function ShopProfile() {
                                         </h3>
                                     </div>
                                     <div className="flex items-center gap-2 mb-3">
-                                        <span className="text-xl font-bold text-gray-900">${product.finalPrice}</span>
+                                        <span className="text-xl font-bold text-gray-900">{product.finalPrice.toLocaleString('vi-VN')} ₫</span>
                                         {product.originalPrice > product.finalPrice && (
-                                            <span className="text-sm text-gray-400 line-through">${product.originalPrice}</span>
+                                            <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('vi-VN')} ₫</span>
                                         )}
                                     </div>
                                 </div>

@@ -63,16 +63,16 @@ export default function ProductCard({ product }: ProductCardProps) {
                     <div className="flex flex-col">
                         {product.finalPrice ? (
                             <>
-                                <span className="text-lg font-bold text-gray-900">${product.finalPrice.toFixed(2)}</span>
-                                <span className="text-sm text-gray-400 line-through">${product.originalPrice.toFixed(2)}</span>
+                                <span className="text-lg font-bold text-gray-900">{product.finalPrice.toLocaleString('vi-VN')} ₫</span>
+                                <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('vi-VN')} ₫</span>
                             </>
                         ) : (
-                            <span className="text-lg font-bold text-gray-900">${product.originalPrice.toFixed(2)}</span>
+                            <span className="text-lg font-bold text-gray-900">{product.originalPrice.toLocaleString('vi-VN')} ₫</span>
                         )}
                     </div>
 
                     <button
-                        onClick={(e) => { e.preventDefault(); addToCart(product._id); }}
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(product._id); }}
                         className="bg-primary-50 hover:bg-primary-600 text-primary-600 hover:text-white p-2.5 rounded-xl transition-colors shrink-0 cursor-pointer"
                         title="Thêm vào giỏ"
                     >

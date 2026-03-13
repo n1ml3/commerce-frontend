@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from '../api/axios';
 import ProductCard, { type ProductType } from '../components/ProductCard';
 import MetroLoader from '../components/MetroLoader';
@@ -9,6 +10,8 @@ export default function Home() {
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [searchParams] = useSearchParams();
+    const searchQuery = searchParams.get('search');
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -26,7 +29,10 @@ export default function Home() {
         const fetchProducts = async () => {
             setLoading(true);
             try {
-                const url = activeCategory ? `/products?category=${activeCategory}` : '/products';
+                let url = activeCategory ? `/products?category=${activeCategory}` : '/products';
+                if (searchQuery) {
+                    url += activeCategory ? `&search=${encodeURIComponent(searchQuery)}` : `?search=${encodeURIComponent(searchQuery)}`;
+                }
                 const response = await axios.get(url);
                 setProducts(response.data);
                 setError('');
@@ -39,7 +45,7 @@ export default function Home() {
         };
 
         fetchProducts();
-    }, [activeCategory]);
+    }, [activeCategory, searchQuery]);
 
     if (loading && products.length === 0) {
         return (
@@ -53,16 +59,22 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {/* Hero Section */}
             <div className="relative bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl overflow-hidden mb-12 shadow-2xl">
-                {/* Subtle pattern or blur could go here */}
-                <div className="absolute inset-0 bg-black/20"></div>
+                <div 
+                   className="absolute inset-0 bg-cover bg-center" 
+                   style={{ backgroundImage: `url('https://images.unsplash.com/photo-1550009158-9effb64fda70?q=80&w=2000&auto=format&fit=crop')` }}
+                ></div>
+                <div className="absolute inset-0 bg-black/60"></div>
                 <div className="relative px-8 py-16 sm:px-16 sm:py-24 flex flex-col items-center text-center">
                     <h1 className="text-4xl font-extrabold text-white tracking-tight sm:text-6xl mb-6 drop-shadow-lg">
-                        Bộ Sưu Tập Đỉnh Cao
+                        Thế Giới Công Nghệ
                     </h1>
-                    <p className="max-w-2xl mx-auto text-xl text-gray-300 mb-8 font-medium">
-                        Khám phá những sản phẩm thịnh hành nhất với mức giá không tưởng. Mua sắm dễ dàng, tận hưởng niềm vui.
+                    <p className="max-w-2xl mx-auto text-xl text-gray-300 mb-8 font-medium drop-shadow-md">
+                        Khám phá những sản phẩm điện tử, máy tính, và phụ kiện thông minh thịnh hành nhất với mức giá không tưởng.
                     </p>
-                    <button className="bg-primary-600 text-white font-bold px-8 py-3 rounded-full hover:bg-primary-700 transition-transform shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <button 
+                        onClick={() => window.scrollTo({ top: document.querySelector('.grid')?.getBoundingClientRect().top! + window.scrollY - 100, behavior: 'smooth' })}
+                        className="bg-primary-600 text-white font-bold px-8 py-3 rounded-full hover:bg-primary-700 transition-transform shadow-lg hover:shadow-xl transform hover:-translate-y-1 cursor-pointer"
+                    >
                         Khám Phá Ngay
                     </button>
                 </div>
@@ -70,7 +82,7 @@ export default function Home() {
 
             <div className="flex items-center justify-between mb-8">
                 <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
-                    Sản phẩm nổi bật
+                    {searchQuery ? `Kết quả tìm kiếm cho "${searchQuery}"` : 'Sản phẩm nổi bật'}
                 </h2>
             </div>
 

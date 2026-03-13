@@ -160,7 +160,7 @@ export default function AdminProducts() {
                                     <div className="text-sm font-medium text-gray-900">{prod.name}</div>
                                     <div className="text-sm text-gray-500 line-clamp-1">{prod.description}</div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${prod.finalPrice}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{prod.finalPrice.toLocaleString('vi-VN')} ₫</td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                       {prod.stockQuantity}

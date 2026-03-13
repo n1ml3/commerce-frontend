@@ -1,15 +1,41 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { useState, useEffect } from 'react';
+import axios from '../api/axios';
 
 export default function Navbar() {
     const { user, isAuthenticated, logout } = useAuth();
     const { totalItems } = useCart();
     const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState('');
+    const [suggestions, setSuggestions] = useState<any[]>([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
+    useEffect(() => {
+        if (searchTerm.trim().length > 1) {
+            const timeoutId = setTimeout(() => {
+                axios.get(`/products?search=${encodeURIComponent(searchTerm.trim())}`)
+                    .then(res => setSuggestions(res.data.slice(0, 5)))
+                    .catch(err => console.error(err));
+            }, 300);
+            return () => clearTimeout(timeoutId);
+        } else {
+            setSuggestions([]);
+        }
+    }, [searchTerm]);
 
     const handleLogout = () => {
         logout();
         navigate('/');
+    };
+
+    const handleSearch = () => {
+        if (searchTerm.trim()) {
+            navigate(`/store?search=${encodeURIComponent(searchTerm.trim())}`);
+        } else {
+            navigate(`/store`);
+        }
     };
 
     return (
@@ -28,14 +54,34 @@ export default function Navbar() {
                         <div className="relative w-full flex">
                             <input 
                                 type="text"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                onFocus={() => setShowSuggestions(true)}
+                                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                                 placeholder="Tìm kiếm sản phẩm, thương hiệu và hơn thế nữa..."
                                 className="w-full px-4 py-3 bg-white text-gray-900 border-none outline-none focus:ring-0 placeholder-gray-500"
                             />
-                            <button className="bg-primary-700 hover:bg-primary-800 text-white px-6 py-3 font-medium flex items-center justify-center transition-colors">
+                            <button onClick={handleSearch} className="bg-primary-700 hover:bg-primary-800 text-white px-6 py-3 font-medium flex items-center justify-center transition-colors cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                             </button>
+                            
+                            {/* Autocomplete Dropdown */}
+                            {showSuggestions && suggestions.length > 0 && (
+                                 <div className="absolute top-full left-0 w-full bg-white text-gray-900 mt-1 shadow-lg z-50 border border-gray-100 divide-y divide-gray-50">
+                                      {suggestions.map(s => (
+                                          <div key={s._id} className="px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3 transition-colors" onClick={() => { setShowSuggestions(false); navigate(`/store/product/${s._id}`); setSearchTerm(''); }}>
+                                              <img src={s.images[0]} className="w-10 h-10 object-cover rounded bg-gray-100" alt={s.name} />
+                                              <div>
+                                                  <p className="text-sm font-bold line-clamp-1">{s.name}</p>
+                                                  <p className="text-xs text-primary-600 font-medium">{s.finalPrice ? s.finalPrice.toLocaleString('vi-VN') : s.originalPrice.toLocaleString('vi-VN')} ₫</p>
+                                              </div>
+                                          </div>
+                                      ))}
+                                 </div>
+                            )}
                         </div>
                     </div>
 
