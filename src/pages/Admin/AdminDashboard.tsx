@@ -1,3 +1,14 @@
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+const mockChartData = [
+  { name: 'T10', revenue: 40000000 },
+  { name: 'T11', revenue: 30000000 },
+  { name: 'T12', revenue: 50000000 },
+  { name: 'T1', revenue: 80000000 },
+  { name: 'T2', revenue: 60000000 },
+  { name: 'T3', revenue: 145500000 },
+];
+
 const AdminDashboard = () => {
     return (
         <div>
@@ -33,8 +44,30 @@ const AdminDashboard = () => {
             </div>
             
             <div className="mt-8 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                 <h2 className="text-xl font-bold text-gray-900 mb-4">Hoạt Động Gần Đây</h2>
-                 <p className="text-gray-500">Không có hoạt động nào để hiển thị.</p>
+                 <h2 className="text-xl font-bold text-gray-900 mb-6">Biểu Đồ Doanh Thu (6 tháng gần nhất)</h2>
+                 <div className="h-80 w-full">
+                     <ResponsiveContainer width="100%" height="100%">
+                         <AreaChart
+                             data={mockChartData}
+                             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                         >
+                             <defs>
+                                 <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                                     <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3}/>
+                                     <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                                 </linearGradient>
+                             </defs>
+                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                             <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#6b7280'}} dy={10} />
+                             <YAxis axisLine={false} tickLine={false} tick={{fill: '#6b7280'}} tickFormatter={(value) => `${value / 1000000}M`} dx={-10} />
+                             <Tooltip 
+                                 formatter={(value: number) => [`${value.toLocaleString('vi-VN')} ₫`, 'Doanh thu']}
+                                 contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                             />
+                             <Area type="monotone" dataKey="revenue" stroke="#8b5cf6" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
+                         </AreaChart>
+                     </ResponsiveContainer>
+                 </div>
             </div>
         </div>
     );

@@ -5,6 +5,8 @@ export default function AdminUsers() {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [formData, setFormData] = useState<any>({ name: '', email: '', role: 'user', password: '' });
     const [editingId, setEditingId] = useState<string | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [roleFilter, setRoleFilter] = useState('all');
 
     useEffect(() => {
         fetchUsers();
@@ -79,6 +81,26 @@ export default function AdminUsers() {
                 </button>
             </div>
 
+            <div className="mb-6 flex flex-col sm:flex-row gap-4">
+                <input 
+                    type="text" 
+                    placeholder="Tìm kiếm theo tên hoặc email..." 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="flex-1 border border-gray-300 rounded-md shadow-sm p-2"
+                />
+                <select 
+                    value={roleFilter} 
+                    onChange={(e) => setRoleFilter(e.target.value)}
+                    className="w-full sm:w-48 border border-gray-300 rounded-md shadow-sm p-2"
+                >
+                    <option value="all">Tất cả vai trò</option>
+                    <option value="admin">Quản trị (Admin)</option>
+                    <option value="vendor">Cửa hàng (Vendor)</option>
+                    <option value="user">Người dùng (User)</option>
+                </select>
+            </div>
+
             {isFormOpen && (
                 <div className="mb-8 bg-white p-6 rounded-lg shadow border border-gray-200">
                     <h2 className="text-xl font-bold mb-4">{editingId ? 'Sửa Người Dùng' : 'Thêm Người Dùng'}</h2>
@@ -121,7 +143,11 @@ export default function AdminUsers() {
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {users.map((user: any) => (
+                        {users.filter(user => {
+                            const matchSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) || user.email.toLowerCase().includes(searchTerm.toLowerCase());
+                            const matchRole = roleFilter === 'all' || user.role === roleFilter;
+                            return matchSearch && matchRole;
+                        }).map((user: any) => (
                             <tr key={user._id} className="hover:bg-gray-50 transition-colors">
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="text-sm font-medium text-gray-900">{user.name}</div>

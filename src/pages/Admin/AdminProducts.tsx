@@ -7,6 +7,7 @@ export default function AdminProducts() {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [formData, setFormData] = useState<any>({ name: '', description: '', originalPrice: 0, finalPrice: 0, stockQuantity: 0, category: '', vendor: '' });
     const [editingId, setEditingId] = useState<string | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         fetchProducts();
@@ -107,6 +108,16 @@ export default function AdminProducts() {
                 </button>
             </div>
 
+            <div className="mb-6">
+                <input 
+                    type="text" 
+                    placeholder="Tìm kiếm sản phẩm theo tên..." 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full sm:w-96 border border-gray-300 rounded-md shadow-sm p-2"
+                />
+            </div>
+
             {isFormOpen && (
                 <div className="mb-8 bg-white p-6 rounded-lg shadow border border-gray-200">
                     <h2 className="text-xl font-bold mb-4">{editingId ? 'Sửa Sản Phẩm' : 'Thêm Sản Phẩm Mới'}</h2>
@@ -166,7 +177,7 @@ export default function AdminProducts() {
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {products.map((prod: any) => (
+                        {products.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase())).map((prod: any) => (
                             <tr key={prod._id} className="hover:bg-gray-50 transition-colors">
                                 <td className="px-6 py-4">
                                     <div className="text-sm font-medium text-gray-900">{prod.name}</div>
