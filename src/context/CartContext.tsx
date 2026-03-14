@@ -54,9 +54,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
             const validItems = (response.data.items || []).filter((item: any) => item.product != null);
             setItems(validItems);
             alert('Đã thêm sản phẩm vào giỏ hàng!');
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to add to cart', error);
-            alert('Có lỗi xảy ra khi thêm dữ liệu vào giỏ hàng!');
+            alert(error.response?.data?.message || 'Có lỗi xảy ra khi thêm dữ liệu vào giỏ hàng!');
         }
     };
 
@@ -71,13 +71,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
     };
 
     const updateQuantity = async (productId: string, quantity: number) => {
-        if (quantity < 1) return;
         try {
             const response = await axios.put(`/carts/items/${productId}`, { quantity });
             const validItems = (response.data.items || []).filter((item: any) => item.product != null);
             setItems(validItems);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to update quantity', error);
+            alert(error.response?.data?.message || 'Có lỗi xảy ra khi cập nhật số lượng!');
         }
     };
 

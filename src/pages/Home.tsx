@@ -111,7 +111,7 @@ export default function Home() {
                     {error}
                 </div>
             ) : products.length === 0 ? (
-                <div className="text-center text-gray-500 py-12 bg-white border border-gray-100 shadow-none">
+                <div className="text-center text-gray-500 py-12 bg-white shadow-md rounded-lg">
                     Không tìm thấy sản phẩm nào. Vui lòng chạy seeder ở Backend!
                 </div>
             ) : (

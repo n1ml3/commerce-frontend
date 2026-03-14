@@ -31,9 +31,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Remove default shadows or replace with hard shadows if any */
+/* Remove default border radii if desired, but keep shadows */
 * {
-  box-shadow: none !important;
   border-radius: 0 !important;
 }
 

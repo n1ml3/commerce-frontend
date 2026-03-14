@@ -40,10 +40,15 @@ export default function AdminProducts() {
         if (!window.confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
         try {
             const token = localStorage.getItem('token');
-            await fetch(`http://localhost:3000/products/${id}`, {
+            const response = await fetch(`http://localhost:3000/products/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
+            if (!response.ok) {
+                const data = await response.json();
+                alert(`Xoá thất bại: ${data.message || 'Lỗi không xác định'}`);
+                return;
+            }
             fetchProducts();
         } catch (error) { console.error(error); }
     };
@@ -69,14 +74,21 @@ export default function AdminProducts() {
         const method = editingId ? 'PUT' : 'POST';
 
         try {
-            await fetch(url, {
+            const response = await fetch(url, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({...formData, slug: formData.name.toLowerCase().replace(/ /g, '-')})
+                body: JSON.stringify({...formData, slug: formData.name.toLowerCase().replace(/ /g, '-') + '-' + Date.now()})
             });
+            
+            if (!response.ok) {
+                const data = await response.json();
+                alert(`Lưu thất bại: ${data.message || 'Lỗi không xác định'}`);
+                return;
+            }
+            
             setIsFormOpen(false);
             setEditingId(null);
             fetchProducts();
@@ -160,7 +172,7 @@ export default function AdminProducts() {
                                     <div className="text-sm font-medium text-gray-900">{prod.name}</div>
                                     <div className="text-sm text-gray-500 line-clamp-1">{prod.description}</div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{prod.finalPrice.toLocaleString('vi-VN')} ₫</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{(prod.finalPrice || prod.originalPrice || 0).toLocaleString('vi-VN')} ₫</td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                       {prod.stockQuantity}

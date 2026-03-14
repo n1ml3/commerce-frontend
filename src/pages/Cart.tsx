@@ -56,37 +56,37 @@ export default function Cart() {
             <h1 className="text-3xl font-extrabold text-gray-900 mb-8">Giỏ Hàng Của Bạn</h1>
             <div className="flex flex-col lg:flex-row gap-8">
                 <div className="lg:w-2/3">
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 divide-y divide-gray-100">
+                    <div className="bg-white rounded-lg shadow-md">
                         {items.map((item) => (
-                            <div key={item.product._id} className="p-6 flex items-center flex-col sm:flex-row gap-6">
+                            <div key={item.product._id} className="p-6 flex items-center flex-col sm:flex-row gap-6 border-b border-gray-100 last:border-0">
                                 <img
                                     src={item.product.images[0] || 'https://via.placeholder.com/150'}
                                     alt={item.product.name}
-                                    className="w-24 h-24 object-cover rounded-xl bg-gray-50"
+                                    className="w-24 h-24 object-cover rounded-md"
                                 />
                                 <div className="flex-1 text-center sm:text-left">
-                                    <h3 className="text-lg font-bold text-gray-900">{item.product.name}</h3>
-                                    <p className="text-primary-600 font-medium">{item.price.toLocaleString('vi-VN')} ₫</p>
+                                    <h3 className="text-lg font-medium text-gray-900">{item.product.name}</h3>
+                                    <p className="text-primary-600 font-bold mt-1">{item.price.toLocaleString('vi-VN')} ₫</p>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <div className="flex items-center bg-gray-50 rounded-lg border border-gray-200">
+                                    <div className="flex items-center border border-gray-300 rounded-md">
                                         <button
                                             onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
-                                            className="px-3 py-1 hover:bg-gray-100 rounded-l-lg transition-colors cursor-pointer"
+                                            className="px-3 py-1 hover:bg-gray-100 transition-colors cursor-pointer"
                                         >
                                             -
                                         </button>
-                                        <span className="px-4 font-medium text-gray-700">{item.quantity}</span>
+                                        <span className="px-4 py-1 border-x border-gray-300 font-medium text-gray-700">{item.quantity}</span>
                                         <button
                                             onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
-                                            className="px-3 py-1 hover:bg-gray-100 rounded-r-lg transition-colors cursor-pointer"
+                                            className="px-3 py-1 hover:bg-gray-100 transition-colors cursor-pointer"
                                         >
                                             +
                                         </button>
                                     </div>
                                     <button
                                         onClick={() => removeFromCart(item.product._id)}
-                                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                                        className="p-2 text-red-500 hover:text-red-700 transition-colors cursor-pointer"
                                         title="Xoá"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,7 +100,7 @@ export default function Cart() {
                 </div>
 
                 <div className="lg:w-1/3">
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
+                    <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
                         <h2 className="text-xl font-bold text-gray-900 mb-6">Tóm Tắt Đơn Hàng</h2>
                         <div className="space-y-4 mb-6">
                             <div className="flex justify-between text-gray-600">
@@ -111,7 +111,7 @@ export default function Cart() {
                                 <span>Phí vận chuyển</span>
                                 <span>Miễn phí</span>
                             </div>
-                            <div className="border-t border-gray-100 pt-4 flex justify-between items-center text-lg font-bold text-gray-900">
+                            <div className="border-t border-gray-200 pt-4 flex justify-between items-center text-lg font-bold text-gray-900">
                                 <span>Tổng cộng</span>
                                 <span className="text-primary-600">{totalPrice.toLocaleString('vi-VN')} ₫</span>
                             </div>
