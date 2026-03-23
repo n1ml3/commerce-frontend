@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 export default function ProductDetail() {
     const { id } = useParams<{ id: string }>();
     const { addToCart } = useCart();
@@ -22,14 +24,14 @@ export default function ProductDetail() {
 
     const fetchProduct = async () => {
         try {
-            const res = await fetch(`http://localhost:3000/products/${id}`);
+            const res = await fetch(`${API_URL}/products/${id}`);
             setProduct(await res.json());
         } catch (e) { console.error(e); }
     };
 
     const fetchReviews = async () => {
         try {
-            const res = await fetch(`http://localhost:3000/reviews?productId=${id}`);
+            const res = await fetch(`${API_URL}/reviews?productId=${id}`);
             setReviews(await res.json());
         } catch (e) { console.error(e); }
     };
@@ -46,7 +48,7 @@ export default function ProductDetail() {
         const token = localStorage.getItem('token');
         const endpoint = isDislike ? 'dislike' : 'like';
         try {
-            await fetch(`http://localhost:3000/products/${id}/${endpoint}`, {
+            await fetch(`${API_URL}/products/${id}/${endpoint}`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -59,7 +61,7 @@ export default function ProductDetail() {
         if(!user) return alert('Vui lòng đăng nhập để đánh giá');
         const token = localStorage.getItem('token');
         try {
-            await fetch(`http://localhost:3000/reviews`, {
+            await fetch(`${API_URL}/reviews`, {
                 method: 'POST',
                 headers: { 
                     'Authorization': `Bearer ${token}`,

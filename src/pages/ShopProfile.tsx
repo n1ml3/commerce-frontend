@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 export default function ShopProfile() {
     const { id } = useParams<{ id: string }>();
     const [vendor, setVendor] = useState<any>(null);
@@ -15,7 +17,7 @@ export default function ShopProfile() {
 
     const fetchVendor = async () => {
         try {
-            const res = await fetch(`http://localhost:3000/users/${id}`);
+            const res = await fetch(`${API_URL}/users/${id}`);
             const data = await res.json();
             setVendor(data);
         } catch (e) { console.error(e); }
@@ -23,7 +25,7 @@ export default function ShopProfile() {
 
     const fetchVendorProducts = async () => {
         try {
-            const res = await fetch(`http://localhost:3000/products?vendor=${id}`);
+            const res = await fetch(`${API_URL}/products?vendor=${id}`);
             setProducts(await res.json());
         } catch (e) { console.error(e); }
     };
