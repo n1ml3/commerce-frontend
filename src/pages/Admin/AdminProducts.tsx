@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 export default function AdminProducts() {
     const [products, setProducts] = useState<any[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
@@ -17,21 +19,21 @@ export default function AdminProducts() {
 
     const fetchProducts = async () => {
         try {
-            const res = await fetch('http://localhost:3000/products');
+            const res = await fetch(`${API_URL}/products`);
             setProducts(await res.json());
         } catch (e) { console.error(e); }
     };
 
     const fetchCategories = async () => {
         try {
-            const res = await fetch('http://localhost:3000/categories');
+            const res = await fetch(`${API_URL}/categories`);
             setCategories(await res.json());
         } catch (e) { console.error(e); }
     };
 
     const fetchVendors = async () => {
         try {
-            const res = await fetch('http://localhost:3000/users');
+            const res = await fetch(`${API_URL}/users`);
             const data = await res.json();
             setVendors(Array.isArray(data) ? data.filter((u: any) => u.role === 'vendor' || u.role === 'admin') : []);
         } catch (e) { console.error(e); }
@@ -41,7 +43,7 @@ export default function AdminProducts() {
         if (!window.confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/products/${id}`, {
+            const response = await fetch(`${API_URL}/products/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -71,7 +73,7 @@ export default function AdminProducts() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
-        const url = editingId ? `http://localhost:3000/products/${editingId}` : 'http://localhost:3000/products';
+        const url = editingId ? `${API_URL}/products/${editingId}` : `${API_URL}/products`;
         const method = editingId ? 'PUT' : 'POST';
 
         try {

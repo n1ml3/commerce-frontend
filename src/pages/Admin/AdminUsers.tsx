@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 export default function AdminUsers() {
     const [users, setUsers] = useState<any[]>([]);
     const [isFormOpen, setIsFormOpen] = useState(false);
@@ -14,7 +16,7 @@ export default function AdminUsers() {
 
     const fetchUsers = async () => {
         try {
-            const res = await fetch('http://localhost:3000/users');
+            const res = await fetch(`${API_URL}/users`);
             const data = await res.json();
             setUsers(data);
         } catch (error) {
@@ -27,7 +29,7 @@ export default function AdminUsers() {
         try {
             // Include Authorization header if needed, assuming admin is logged in
             const token = localStorage.getItem('token');
-            await fetch(`http://localhost:3000/users/${id}`, {
+            await fetch(`${API_URL}/users/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -46,7 +48,7 @@ export default function AdminUsers() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
-        const url = editingId ? `http://localhost:3000/users/${editingId}` : 'http://localhost:3000/auth/register';
+        const url = editingId ? `${API_URL}/users/${editingId}` : `${API_URL}/auth/register`;
         const method = editingId ? 'PUT' : 'POST';
 
         const payload = { ...formData };
