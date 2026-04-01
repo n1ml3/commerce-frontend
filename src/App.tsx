@@ -17,7 +17,7 @@ import AdminUsers from './pages/Admin/AdminUsers';
 const ClientLayout = () => (
     <div className="flex flex-col min-h-screen">
         <Navbar />
-        <main className="flex-grow flex flex-col">
+        <main className="grow flex flex-col">
             <Outlet />
         </main>
         {/* <footer className="bg-white border-t border-gray-200 mt-auto">
