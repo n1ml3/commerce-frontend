@@ -40,6 +40,3 @@ npm run dev
 # Xây dựng ứng dụng (build) cho môi trường sản xuất (production)
 npm run build
 ```
-
-## Giấy phép
-MIT
