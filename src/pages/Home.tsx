@@ -56,24 +56,23 @@ export default function Home() {
     }
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
             {/* Hero Section */}
-            <div className="relative bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl overflow-hidden mb-12 shadow-2xl">
+            <div className="relative bg-slate-900 overflow-hidden mb-6 sm:mb-12 shadow-2xl border-b-4 border-primary-600">
                 <div 
-                   className="absolute inset-0 bg-cover bg-center" 
+                   className="absolute inset-x-0 top-0 bottom-0 bg-cover bg-center opacity-30 sm:opacity-40" 
                    style={{ backgroundImage: `url('https://images.unsplash.com/photo-1550009158-9effb64fda70?q=80&w=2000&auto=format&fit=crop')` }}
                 ></div>
-                <div className="absolute inset-0 bg-black/60"></div>
-                <div className="relative px-8 py-16 sm:px-16 sm:py-24 flex flex-col items-center text-center">
-                    <h1 className="text-4xl font-extrabold text-white tracking-tight sm:text-6xl mb-6 drop-shadow-lg">
+                <div className="relative px-4 py-10 sm:px-16 sm:py-24 flex flex-col items-center text-center">
+                    <h1 className="text-2xl font-black text-white tracking-tighter sm:text-6xl mb-3 sm:mb-6 drop-shadow-2xl uppercase italic">
                         Thế Giới Công Nghệ
                     </h1>
-                    <p className="max-w-2xl mx-auto text-xl text-gray-300 mb-8 font-medium drop-shadow-md">
-                        Khám phá những sản phẩm điện tử, máy tính, và phụ kiện thông minh thịnh hành nhất với mức giá không tưởng.
+                    <p className="max-w-xs sm:max-w-xl mx-auto text-sm sm:text-xl text-gray-200 mb-6 sm:mb-8 font-medium drop-shadow-md leading-relaxed">
+                        Nơi hội tụ những siêu phẩm điện tử <br className="sm:hidden" /> với giá cực hời.
                     </p>
                     <button 
                         onClick={() => window.scrollTo({ top: document.querySelector('.grid')?.getBoundingClientRect().top! + window.scrollY - 100, behavior: 'smooth' })}
-                        className="bg-primary-600 text-white font-bold px-8 py-3 rounded-full hover:bg-primary-700 transition-transform shadow-lg hover:shadow-xl transform hover:-translate-y-1 cursor-pointer"
+                        className="bg-primary-600 text-white font-bold px-6 py-3 sm:px-8 sm:py-3 hover:bg-primary-700 transition-all shadow-lg transform hover:-translate-y-1 cursor-pointer"
                     >
                         Khám Phá Ngay
                     </button>

@@ -81,9 +81,9 @@ export default function ProductDetail() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="md:flex">
-                    <div className="md:flex-shrink-0 bg-gray-50 md:w-1/2 flex items-center justify-center p-12">
+                    <div className="md:shrink-0 bg-gray-50 md:w-1/2 flex items-center justify-center p-4 sm:p-12">
                         {product.images && product.images.length > 0 ? (
-                            <img src={product.images[0]} alt={product.name} className="object-cover h-full w-full rounded-md" />
+                            <img src={product.images[0]} alt={product.name} className="object-cover h-full w-full" />
                         ) : (
                             <div className="text-gray-400">Không có ảnh</div>
                         )}
@@ -107,16 +107,18 @@ export default function ProductDetail() {
                             {product.description}
                         </p>
                         
-                        <div className="mt-6 flex space-x-4 items-center">
-                            <button onClick={handleAddToCart} className="flex-1 bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors">
-                                Thêm vào Giỏ hàng
+                        <div className="mt-8 flex flex-wrap gap-3 items-center">
+                            <button onClick={handleAddToCart} className="flex-1 min-w-[200px] bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 font-bold transition-all shadow-md active:scale-95 cursor-pointer">
+                                MUA NGAY
                             </button>
-                            <button onClick={() => handleToggleLike(false)} className="text-gray-500 hover:text-green-600 px-4 py-2 border rounded-md">
-                                👍 {product.likes?.length || 0}
-                            </button>
-                            <button onClick={() => handleToggleLike(true)} className="text-gray-500 hover:text-red-600 px-4 py-2 border rounded-md">
-                                👎 {product.dislikes?.length || 0}
-                            </button>
+                            <div className="flex gap-2 w-full sm:w-auto">
+                                <button onClick={() => handleToggleLike(false)} className="flex-1 sm:flex-none text-gray-600 hover:text-green-600 px-6 py-3 border border-gray-200 bg-white hover:bg-green-50 transition-colors">
+                                    👍 {product.likes?.length || 0}
+                                </button>
+                                <button onClick={() => handleToggleLike(true)} className="flex-1 sm:flex-none text-gray-600 hover:text-red-600 px-6 py-3 border border-gray-200 bg-white hover:bg-red-50 transition-colors">
+                                    👎 {product.dislikes?.length || 0}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,7 +134,7 @@ export default function ProductDetail() {
                         <div className="flex flex-col md:flex-row gap-8 mb-6">
                             <div className="flex-1">
                                 <label className="block text-sm font-semibold text-gray-700 mb-3">Đánh giá của bạn</label>
-                                <div className="flex items-center space-x-2">
+                                <div className="flex items-center space-x-1 sm:space-x-2">
                                     {[1, 2, 3, 4, 5].map((star) => (
                                         <button
                                             key={star}
@@ -140,10 +142,10 @@ export default function ProductDetail() {
                                             onClick={() => setReviewForm({ ...reviewForm, rating: star })}
                                             onMouseEnter={() => setHoverRating(star)}
                                             onMouseLeave={() => setHoverRating(0)}
-                                            className="focus:outline-none transition-transform hover:scale-110 cursor-pointer"
+                                            className="focus:outline-none transition-transform hover:scale-110 cursor-pointer active:scale-90"
                                         >
                                             <svg
-                                                className={`w-10 h-10 ${
+                                                className={`w-9 h-9 sm:w-10 sm:h-10 ${
                                                     star <= (hoverRating || reviewForm.rating)
                                                         ? 'text-yellow-400 drop-shadow-sm'
                                                         : 'text-gray-200'

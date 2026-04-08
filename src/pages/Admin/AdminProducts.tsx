@@ -169,36 +169,38 @@ export default function AdminProducts() {
             )}
 
             <div className="bg-white shadow-sm border border-gray-200 rounded-lg overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thông Tin Sản Phẩm</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Giá</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tồn Kho</th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Hành Động</th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {products.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase())).map((prod: any) => (
-                            <tr key={prod._id} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-6 py-4">
-                                    <div className="text-sm font-medium text-gray-900">{prod.name}</div>
-                                    <div className="text-sm text-gray-500 line-clamp-1">{prod.description}</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{(prod.finalPrice || prod.originalPrice || 0).toLocaleString('vi-VN')} ₫</td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                      {prod.stockQuantity}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button onClick={() => handleEdit(prod)} className="text-primary-600 hover:text-primary-900 mr-4">Sửa</button>
-                                    <button onClick={() => handleDelete(prod._id)} className="text-red-600 hover:text-red-900">Xóa</button>
-                                </td>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50 uppercase text-[10px] tracking-widest font-black text-gray-400">
+                            <tr>
+                                <th className="px-6 py-4 text-left">Thông Tin Sản Phẩm</th>
+                                <th className="px-6 py-4 text-left">Giá</th>
+                                <th className="px-6 py-4 text-left">Tồn Kho</th>
+                                <th className="px-6 py-4 text-right">Hành Động</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-100">
+                            {products.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase())).map((prod: any) => (
+                                <tr key={prod._id} className="hover:bg-primary-50/30 transition-colors group">
+                                    <td className="px-6 py-5">
+                                        <div className="text-sm font-bold text-gray-900 group-hover:text-primary-600 transition-colors">{prod.name}</div>
+                                        <div className="text-xs text-gray-500 line-clamp-1 mt-1">{prod.description}</div>
+                                    </td>
+                                    <td className="px-6 py-5 whitespace-nowrap text-sm font-medium text-slate-700">{(prod.finalPrice || prod.originalPrice || 0).toLocaleString('vi-VN')} ₫</td>
+                                    <td className="px-6 py-5 whitespace-nowrap">
+                                        <span className={`px-3 py-1 inline-flex text-[10px] leading-4 font-black rounded-sm uppercase ${prod.stockQuantity > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                          {prod.stockQuantity > 0 ? `Còn hàng (${prod.stockQuantity})` : 'Hết hàng'}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-bold">
+                                        <button onClick={() => handleEdit(prod)} className="text-primary-600 hover:text-primary-900 mr-4 transition-colors">SỬA</button>
+                                        <button onClick={() => handleDelete(prod._id)} className="text-red-500 hover:text-red-700 transition-colors">XÓA</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
